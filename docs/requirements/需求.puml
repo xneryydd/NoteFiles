@@ -1,0 +1,54 @@
+@startuml 需求分析
+left to right direction
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #FDF6E3
+  BorderColor Black
+}
+
+actor 用户
+
+package "本地笔记应用" {
+
+  package "软件功能（系统级）" {
+    usecase "浏览笔记列表"
+    usecase "笔记分类管理"
+    usecase "全局搜索"
+    usecase "本地存储（CoreData）"
+    usecase "iCloud 同步（可选）"
+    usecase "导出为 PDF / Markdown"
+    usecase "加密保护（面容/指纹）"
+    usecase "适配系统深色模式"
+    usecase "内容统计"
+    usecase "⏱编辑历史（撤销/回滚）"
+  }
+
+  package "笔记操作功能（笔记级）" {
+    usecase "创建 / 编辑笔记"
+    usecase "插入图片"
+    usecase "添加标签"
+    usecase "时间线查看"
+    usecase "笔记内查找"
+  }
+
+}
+
+' 用户与所有功能交互
+用户 --> "创建 / 编辑笔记"
+用户 --> "插入图片"
+用户 --> "添加标签"
+用户 --> "时间线查看"
+用户 --> "笔记内查找"
+
+用户 --> "浏览笔记列表"
+用户 --> "笔记分类管理"
+用户 --> "全局搜索"
+用户 --> "本地存储（CoreData）"
+用户 --> "iCloud 同步（可选）"
+用户 --> "导出为 PDF / Markdown"
+用户 --> "加密保护（面容/指纹）"
+用户 --> "适配系统深色模式"
+用户 --> "内容统计"
+用户 --> "编辑历史（撤销/回滚）"
+
+@enduml

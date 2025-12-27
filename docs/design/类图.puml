@@ -1,0 +1,173 @@
+@startuml 项目类图
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+
+'======================
+' 枚举
+'======================
+enum FileType {
+  Text
+  Image
+  ICloud
+}
+
+enum ImageViewMode {
+  Preview
+  Insert
+}
+
+'======================
+' 基础控制器
+'======================
+class UIViewController
+
+class ViewController {
+  - fileType : FileType
+  - fileURL : NSURL
+}
+
+class SecondViewController {
+  - imageViewMode : ImageViewMode
+  - confirmCallback : block
+}
+
+class ThirdViewController
+class SettingViewController
+
+UIViewController <|-- ViewController
+UIViewController <|-- SecondViewController
+UIViewController <|-- ThirdViewController
+UIViewController <|-- SettingViewController
+
+'======================
+' 文件查看体系（核心）
+'======================
+class FileViewController {
+  + fileViewControllerWithURL(url)
+}
+
+UIViewController <|-- FileViewController
+
+class TextViewController {
+  - contentTextView : UITextView
+  - fileURL : NSURL
+}
+
+class PreviewViewController {
+  + exportPDF()
+}
+
+class PdfViewController {
+  - pdfFilePath : NSURL
+}
+
+FileViewController <|-- TextViewController
+FileViewController <|-- PreviewViewController
+FileViewController <|-- PdfViewController
+
+' Docx 不走 FileViewController 体系
+class DocxViewController {
+  - fileURL : NSURL
+}
+
+UIViewController <|-- DocxViewController
+
+'======================
+' 文件列表视图
+'======================
+class FileListView {
+  - folderURL : NSString
+  - fileType : FileType
+  + loadFileList()
+}
+
+interface FileListViewDelegate {
+  + didSelectString()
+  + didLongPress()
+}
+
+FileListView --> FileListViewDelegate
+
+ViewController ..|> FileListViewDelegate
+SecondViewController ..|> FileListViewDelegate
+
+'======================
+' 第三页表格视图
+'======================
+class FileTableView
+interface FileTableViewDelegate
+
+FileTableView --> FileTableViewDelegate
+ThirdViewController ..|> FileTableViewDelegate
+
+'======================
+' 图片相关
+'======================
+class ImageViewController {
+  - image : UIImage
+  - mode : ImageViewMode
+}
+
+class ImageChooseViewController
+
+UIViewController <|-- ImageViewController
+UIViewController <|-- ImageChooseViewController
+
+SecondViewController --> ImageViewController
+
+'======================
+' 导航栏按钮
+'======================
+class UIBarButtonItem
+class BarButtonItemLeft
+class BarButtonItemRight
+class BarButtonItemAdd
+
+UIBarButtonItem <|-- BarButtonItemLeft
+UIBarButtonItem <|-- BarButtonItemRight
+UIBarButtonItem <|-- BarButtonItemAdd
+
+interface BarButtonItemAddDelegate {
+  + barButtonItemAddDidTap()
+}
+
+BarButtonItemAdd --> BarButtonItemAddDelegate
+ViewController ..|> BarButtonItemAddDelegate
+SecondViewController ..|> BarButtonItemAddDelegate
+
+'======================
+' 全局与工具类
+'======================
+class GlobalInfoManager {
+  + sharedManager()
+  - url : NSURL
+}
+
+class TextStyleManager {
+  + sharedManager()
+  - font
+  - lineSpacing
+}
+
+class ImagePickerHelper
+class CreateFileAlertController
+
+SecondViewController --> ImagePickerHelper
+ViewController --> CreateFileAlertController
+
+'======================
+' 浮动搜索窗口
+'======================
+class FloatingWindow {
+  - searchTextField
+}
+
+interface FloatWindowDelegate {
+  + highlightText()
+  + scrollToMatch()
+}
+
+FloatingWindow --> FloatWindowDelegate
+TextViewController ..|> FloatWindowDelegate
+
+@enduml

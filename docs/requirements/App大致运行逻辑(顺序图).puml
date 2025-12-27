@@ -1,0 +1,28 @@
+@startuml App大致运行逻辑
+actor User
+
+participant MainTabBarController
+participant FirstVC
+participant FileListView
+participant MdFileVC
+participant SecondVC
+participant GlobalInfoManager
+
+User -> MainTabBarController : 点击「文件」Tab
+MainTabBarController -> FirstVC : 显示 FirstVC
+
+User -> FileListView : 选择 md 文件
+FileListView -> FirstVC : didSelectFile()
+FirstVC -> MdFileVC : open(fileURL)
+
+MdFileVC -> GlobalInfoManager : 读取全局配置
+GlobalInfoManager --> MdFileVC : 深浅模式 / 字体大小
+
+User -> MdFileVC : 插入图片
+MdFileVC -> SecondVC : 请求图片列表
+SecondVC -> FileListView : 读取 Document/assert/
+FileListView --> SecondVC : 图片文件列表
+SecondVC --> MdFileVC : 返回图片
+MdFileVC -> MdFileVC : 插入图片完成
+
+@enduml
