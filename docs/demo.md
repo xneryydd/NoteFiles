@@ -1,7 +1,7 @@
 ## 操作演示
 
 ### 操作视频
-![操作视频](https://github.com/xneryydd/NoteFiles/blob/alkek/docs/%E9%A1%B9%E7%9B%AE%E6%BC%94%E7%A4%BA.MP4)
+![操作视频](https://github.com/xneryydd/NoteFiles/blob/main/docs/%E9%A1%B9%E7%9B%AE%E6%BC%94%E7%A4%BA.MP4)
 
 ### 操作详细
 ##### 1.启动
